@@ -1,11 +1,14 @@
 # zconsole
+
 An interface to intercept operator commands START, STOP,MODFY for Python programs on z/OS, and to write to the operator console
 
 ## To install it
+
 1. ftp zconsole.pax.bin to z/OS in binary, to a directory  in the PYTHONPATH environment variable.
 1. pax -rvf zconsole.pax.bin
 
 This will produce
+
 1. zconsole.so - the load module
 1. console.py - a class for running the code
 1. cons3.py - an example python script for running as a started task which demonstrates all of the functions.
@@ -24,11 +27,12 @@ is not a super userid with uid(0).
     
 
 ## Wait for an operator command
+
 An operator can issue commands like
 
-1.  s PYT,,,'COLINs Data',p=CONSNEW 
-1.  STOP  PYT
-1.  F PYT,'pass a parameter while running'
+1. s PYT,,,'COLINs Data',p=CONSNEW 
+1. STOP  PYT
+1. F PYT,'pass a parameter while running'
 
 To use this you need
 
@@ -40,7 +44,7 @@ This will call the callback function ccp passing the parameters within the [].
 
 It uses console.py which has a class defined within it.   This is done, so the class object can use the atexit.register.  This registers a function
 to be run at shutdown time.    This function then cancels the asynchronous thread.   If this is not done, then the main thread may just hang, or it may abend, saying an attached subtask is still running.
-   
+
 This returns data to the call back funtion like (for the Start Command)
 
     {'rc': 0, 
@@ -60,8 +64,10 @@ and from the stop command
 
     {'rc': 0, 'verb': 'Stop', 'data': ' ',  ... }
     
-# A working example
-## PYT started task Procedure
+## A working example
+
+### PYT started task Procedure
+
     //         PROC P='cons2' 
     //* 
     //  SET PY='/usr/lpp/IBM/cyp/v3r8/pyz/bin/python3' 
@@ -75,14 +81,14 @@ and from the stop command
     //CEEDUMP  DD SYSOUT=* 
     //STDIN    DD DUMMY 
 
-
 Start this  JCL to use cons3.py using
 
     S PYT,p='cons3'
     
-## The cons3.py 
-### standard imports 
- 
+## The cons3.py
+
+### standard imports
+
     import zconsole as zconsole 
     import console as  console 
     import atexit   as atexit 
@@ -94,7 +100,8 @@ Start this  JCL to use cons3.py using
     import threading 
     import concurrent.futures    
     
-###  The call back function
+### The call back function
+
     def ccp(args,a   ) : 
           global stop   # set this to 1 to stop 
           global global_counter  # increment this 
@@ -109,11 +116,12 @@ Start this  JCL to use cons3.py using
              stop = 1 
           e.set() # post event - wake up main 
     
- 1.  This uses a global flag (stop) to tell the main thread that "STOP" was issued
- 1.  It also updates a counter, using a threadLock, to ensure there no timing window
- 1.  It prints the output
- 
- ### The main task
+ 1. This uses a global flag (stop) to tell the main thread that "STOP" was issued
+ 1. It also updates a counter, using a threadLock, to ensure there no timing window
+ 1. It prints the output
+
+### The main task
+
     stop = 0 
     global_counter = 0 
     print("START",flush=True) 
@@ -127,7 +135,8 @@ Start this  JCL to use cons3.py using
     # set up the call back - passing the routine, and the threading event
     a.cb(ccp,[exit_flag]) 
                                                                          
- ###  The loop
+### The loop
+
     print("MAIN taskinfo ",zconsole.taskinfo()) 
     for i in range (0,4 ): 
        exit_flag.wait(timeout=30) 
@@ -142,16 +151,16 @@ Start this  JCL to use cons3.py using
           break 
     print("after stop ",stop) 
     
- ##  The operator commands 
- 
- 1. s PYT,p='cons3' 
+## The operator commands
+
+ 1. s PYT,p='cons3'
  1. f PYT,2oLIN D3ta
- 1. p PYT 
- 
+ 1. p PYT
+
  This starts, the Python script as a started task. It is passed some data, it is told to shutdown.
- 
- ## The output   
- 
+
+## The output
+
     START 
     MAIN taskinfo  {'jobname': 'PYT     ', 'ascb': '0x00fbed00', 'tcb': '0x008d5e88', 'tcbttime': 0} 
     ccp Task info  {'jobname': 'PYT     ', 'ascb': '0x00fbed00', 'tcb': '0x008d5cf0', 'tcbttime': 0} 
@@ -176,5 +185,3 @@ Start this  JCL to use cons3.py using
     GlobalCounter 3 
     stop 1 
     after stop  1 
- 
- 
