@@ -1,0 +1,82 @@
+[build-system]
+requires = ["setuptools >= 80.9.0", "setuptools-scm >= 9.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zconsole"
+requires-python = ">= 3.12"
+authors = [
+    { name = "Colin Paice", email = "colinpaice3@gmail.com"},
+]
+maintainers = [
+    { name = "Emma Skovgard" },
+]
+description = "Python interface for the z/OS operator console"
+readme = "README.md"
+license = "MIT"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "Operating System :: POSIX :: Other",
+    "Programming Language :: Assembly",
+    "Programming Language :: C",
+    'Programming Language :: Python',
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    'Programming Language :: Python :: 3 :: Only',
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: System :: Hardware :: Mainframes",
+    "Topic :: System :: Systems Administration",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.4.2",
+  "pytest-md>=0.2.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Mainframe-Renewal-Project/sear"
+Documentation = "https://mainframe-renewal-project.github.io/sear-docs/interfaces/python/"
+Source = "https://github.com/Mainframe-Renewal-Project/sear"
+Issues = "https://github.com/Mainframe-Renewal-Project/sear/issues"
+"Release Notes" = "https://github.com/Mainframe-Renewal-Project/sear/releases"
+
+[tool.setuptools.packages.find]
+where = ["python"]
+include = ["zconsole"]
+
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+exclude = [".git", ".github", "externals", "sear", "debug", "dev_tools", "python_tests"]
+
+[tool.ruff.lint]
+# Ruff by default is not very aggressive, only enforcing a few rulesets like E and F.
+# To ensure well organized code a bunch more rulesets have been enabled
+select = [
+    "E",
+    "F",
+    "B",
+    "EM",  #Error messages and exceptions
+    "SIM", #Comes with suggestions on simplifying things
+    "N",   #Checks if code conforms to the PEP8 naming conventions
+    "PLE",
+    "UP",
+    "TRY", #Best practices for try-except
+    "FLY", #Checks for string joins
+    "I",   #Comes with suggestions on organizing imports
+    "COM", #Checks for missing commas and unnecessary 
+    "A",
+]
+
+
+[tool.setuptools.package-data]
+sear = ["LICENSE", "NOTICES"]
+
+# This is required for dynamic versioning to work
+[tool.setuptools_scm]
