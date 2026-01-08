@@ -19,7 +19,7 @@ This will produce
     zconsole.put("This gets written to the z/OS console") 
     zconsole.put("This gets written to the z/OS console using descr and route",desc=11,route=2)
     
-You can use the C run time _console2 but this will prefix your message with BPX... if the userid is not authrorised to BPX.CONSOLE and 
+You can use the C run time _console2 but this will prefix your message with BPX... if the userid is not authrorised to BPX.CONSOLE and
 is not a super userid with uid(0).
 
     zconsole.console2("This gets written to the z/OS console") 
