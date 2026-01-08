@@ -19,7 +19,7 @@ def main():
     """Python extension build entrypoint."""
     setup_args = {
         "ext_modules": [
-            Extension('console.zconsole',['sear.console.c'],
+            Extension('console.zconsole',['src/zconsole/console.c'],
             include_dirs=[
                 "/src/zconsole",
                 ],
