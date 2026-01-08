@@ -30,7 +30,7 @@ is not a super userid with uid(0).
 
 An operator can issue commands like
 
-1. s PYT,,,'COLINs Data',p=CONSNEW 
+1. s PYT,,,'COLINs Data',p=CONSNEW
 1. STOP  PYT
 1. F PYT,'pass a parameter while running'
 
@@ -56,7 +56,7 @@ This returns data to the call back funtion like (for the Start Command)
      'oconsoleid': b'\x03\x00\x00\x0c\x00\xfb8\xc0'
     } 
 
-and for a modify command 
+and for a modify command
 
     {'rc': 0, 'verb': 'Modify', 'data': "'ddd'", ... }                    
 
