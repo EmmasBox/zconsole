@@ -47,10 +47,6 @@ Source = "https://github.com/Mainframe-Renewal-Project/sear"
 Issues = "https://github.com/Mainframe-Renewal-Project/sear/issues"
 "Release Notes" = "https://github.com/Mainframe-Renewal-Project/sear/releases"
 
-[tool.setuptools.packages.find]
-where = ["python"]
-include = ["zconsole"]
-
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
 exclude = [".git", ".github", "externals", "sear", "debug", "dev_tools", "python_tests"]
