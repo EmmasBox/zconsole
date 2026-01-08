@@ -18,9 +18,7 @@ def main():
     # Otherwise you get FSUM3008  messages
     os.environ['_C89_CCMODE'] = '1'
 
-    if "_C89_CCMODE=1" not in os.environ:
-        msg = "_C89_CCMODE=1 not set"
-        raise RuntimeError(msg)
+    os.environ["CC"] = "c89"
 
     setup_args = {
         "ext_modules": [
