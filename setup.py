@@ -4,9 +4,6 @@ import sys
 from setuptools import Extension, setup
 from wheel.bdist_wheel import bdist_wheel as _bdist_wheel
 
-# This script needs    export _C89_CCMODE=1
-# Otherwise you get FSUM3008  messages
-os.environ['_C89_CCMODE'] = '1'
 
 class bdist_wheel(_bdist_wheel): # noqa: N801
     def finalize_options(self):
@@ -17,6 +14,10 @@ class bdist_wheel(_bdist_wheel): # noqa: N801
 
 def main():
     """Python extension build entrypoint."""
+    # This script needs    export _C89_CCMODE=1
+    # Otherwise you get FSUM3008  messages
+    os.environ['_C89_CCMODE'] = '1'
+
     if "_C89_CCMODE=1" not in os.environ:
         msg = "_C89_CCMODE=1 not set"
         raise RuntimeError(msg)
