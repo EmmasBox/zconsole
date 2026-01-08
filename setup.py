@@ -17,6 +17,10 @@ class bdist_wheel(_bdist_wheel): # noqa: N801
 
 def main():
     """Python extension build entrypoint."""
+    if "_C89_CCMODE=1" not in os.environ:
+        msg = "_C89_CCMODE=1 not set"
+        raise RuntimeError(msg)
+
     setup_args = {
         "ext_modules": [
             Extension('console.zconsole',['src/zconsole/console.c'],
